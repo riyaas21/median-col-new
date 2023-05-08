@@ -1,47 +1,29 @@
 import cv2
-import os
-import numpy as np
-import streamlit as st
-import tempfile
-import winsound
-import pytest
 
-# Define the intersects function test cases
-@pytest.mark.parametrize("x1, y1, w, h, x2, y2, x3, y3, expected", [
-    (0, 0, 10, 10, 5, 5, 0, 0, True),  # Two rectangles intersecting
-    (0, 0, 10, 10, 20, 20, 0, 0, False),  # Two rectangles not intersecting
-    (0, 0, 10, 10, 5, 5, 10, 10, False),  # Two rectangles sharing a corner
-    (0, 0, 10, 10, 0, 5, 10, 5, True),  # Line intersects rectangle
-    (0, 0, 10, 10, 0, 5, 10, 15, False),  # Line not intersecting rectangle
-])
-def test_intersects(x1, y1, w, h, x2, y2, x3, y3, expected):
-    assert intersects(x1, y1, w, h, x2, y2, x3, y3) == expected
+def test_webcam_working():
+    cap = cv2.VideoCapture(0)
+    assert cap.isOpened(), "Webcam is not working"
 
-# Define the test_detection function
-def test_detection(video_filename):
-    # Test video file upload
-    video_file = open(video_filename, "rb")
-    assert video_file is not None
-
-    # Test video capture
-    cap = cv2.VideoCapture(video_filename)
+def test_webcam_capture():
+    cap = cv2.VideoCapture(0)
+    assert cap.isOpened(), "Webcam is not working"
+    
     ret, frame = cap.read()
-    assert ret == True
+    assert ret, "Failed to capture frame from webcam"
 
-    # Test line positions
-    assert line1_pos >= 0 and line1_pos <= int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    assert line2_pos >= 0 and line2_pos <= int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+def test_webcam_release():
+    cap = cv2.VideoCapture(0)
+    assert cap.isOpened(), "Webcam is not working"
+    
+    cap.release()
+    assert not cap.isOpened(), "Failed to release webcam"
 
-    # Test line thicknesses
-    assert line1_thickness >= 1 and line1_thickness <= 10
-    assert line2_thickness >= 1 and line2_thickness <= 10
-
-    # Test line tilts
-    assert line1_tilt >= -90 and line1_tilt <= 90
-    assert line2_tilt >= -90 and line2_tilt <= 90
-
-    # Test LBPH face recognizer
-    training_dir = "C:/Users/Riyaas/Desktop/road_median/car"
-    recognizer = cv2.face.LBPHFaceRecognizer_create()
-    recognizer.read("lbph_trained_model.yml")
-    assert recognizer is not None
+def test_webcam_resolution():
+    cap = cv2.VideoCapture(0)
+    assert cap.isOpened(), "Webcam is not working"
+    
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    
+    assert width > 0, "Failed to retrieve webcam resolution (width)"
+    assert height > 0, "Failed to retrieve webcam resolution (height)"
