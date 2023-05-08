@@ -1,5 +1,4 @@
 pytest
 streamlit
 opencv-python-headless
-os
 numpy
