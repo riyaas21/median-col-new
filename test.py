@@ -1,16 +1,22 @@
-import cv2
+import math
+def distance1(duration):
+    r = 3.4 * duration / 2
+    dist1 = r / 100.00
+    return dist1
 
-def test_webcam():
-    cap = cv2.VideoCapture('VID2.mp4') # replace with the path to your pre-recorded video file
-    assert cap.isOpened() == True # check if the camera is opened successfully
+def distance2(duration):
+    r = 3.4 * duration / 2
+    dist2 = r / 100.00
+    return dist2
 
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-        cv2.imshow('frame', frame)
-        if cv2.waitKey(1) == ord('q'):
-            break
+duration = 1000.0
 
-    cap.release()
-    cv2.destroyAllWindows()
+Distance_1 = distance1(duration)
+def test_distance1():
+    assert int(Distance_1)==17    
+
+Distance_2 = distance2(duration)
+def test_distance2():
+    assert int(Distance_2)==17
+
+assert int(Distance_1) == int(Distance_2)
